@@ -162,3 +162,15 @@ __WEAK uint32_t read_der_message_length(unsigned char* input, unsigned sz)
 {
 	return SIGNATURE_SIZE;
 }
+__WEAK void * get_canary(void)
+{
+	return (void *)rand();
+}
+
+__WEAK bool is_secure_boot_enable(void) {
+	return false;
+}
+
+__WEAK void scm_elexec_call(paddr_t kernel_entry, paddr_t dtb_offset) {
+	ASSERT(0);
+}
