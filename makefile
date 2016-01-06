@@ -83,6 +83,7 @@ all:: $(OUTBIN) $(OUTELF).lst $(OUTELF).debug.lst $(OUTELF).sym $(OUTELF).size $
 # which is bootobjs, kobjs, objs
 BOOTOBJS :=	
 OBJS :=
+SHIMOBJS :=
 
 # a linker script needs to be declared in one of the project/target/platform files
 LINKER_SCRIPT := 			
@@ -157,7 +158,8 @@ all:: $(EXTRA_BUILDDEPS)
 
 ALLOBJS := \
 	$(BOOTOBJS) \
-	$(OBJS)
+	$(OBJS) \
+	$(SHIMOBJS)
 
 # add some automatic configuration defines
 DEFINES += \
@@ -175,6 +177,9 @@ DEFINES += \
 endif
 
 ALLOBJS := $(addprefix $(BUILDDIR)/,$(ALLOBJS))
+SHIMOBJS := $(addprefix $(BUILDDIR)/,$(SHIMOBJS))
+SHIMPATCHOBJS := $(filter-out $(SHIMOBJS),$(ALLOBJS))
+ALLOBJS_PATCHED := $(addsuffix .patched.o,$(SHIMPATCHOBJS)) $(SHIMOBJS)
 
 DEPS := $(ALLOBJS:%o=%d)
 
